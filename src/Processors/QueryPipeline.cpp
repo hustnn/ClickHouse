@@ -242,18 +242,11 @@ void QueryPipeline::addCreatingSetsTransform(SubqueriesForSets subqueries_for_se
     resize(1);
 
     Pipes pipes;
-    pipes.emplace_back(std::move(pipe));
     pipes.emplace_back(std::move(source));
+    pipes.emplace_back(std::move(pipe));
     pipe = Pipe::unitePipes(std::move(pipes), collected_processors);
 
-    /// Order is important for concat. Connect manually.
-    pipe.transform([&](OutputPortRawPtrs ports) -> Processors
-    {
-        auto concat = std::make_shared<ConcatProcessor>(getHeader(), 2);
-        connect(*ports.front(), concat->getInputs().front());
-        connect(*ports.back(), concat->getInputs().back());
-        return { std::move(concat) };
-    });
+    pipe.addTransform(std::make_shared<ConcatProcessor>(getHeader(), 2));
 }
 
 void QueryPipeline::setOutputFormat(ProcessorPtr output)
