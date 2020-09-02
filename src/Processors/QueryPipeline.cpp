@@ -240,7 +240,11 @@ void QueryPipeline::addCreatingSetsTransform(SubqueriesForSets subqueries_for_se
     source.collected_processors = nullptr;
 
     resize(1);
-    pipe = Pipe::unitePipes({std::move(pipe), std::move(source)}, collected_processors);
+
+    Pipes pipes;
+    pipes.emplace_back(std::move(pipe));
+    pipes.emplace_back(std::move(source));
+    pipe = Pipe::unitePipes(std::move(pipes), collected_processors);
 
     /// Order is important for concat. Connect manually.
     pipe.transform([&](OutputPortRawPtrs ports) -> Processors
