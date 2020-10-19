@@ -19,3 +19,6 @@ ClickHouse is an open-source column-oriented database management system that all
 
 * [eBay migrating from Druid](https://us02web.zoom.us/webinar/register/tZMkfu6rpjItHtaQ1DXcgPWcSOnmM73HLGKL) on September 23, 2020.
 * [ClickHouse for Edge Analytics](https://ones2020.sched.com/event/bWPs) on September 29, 2020.
+
+
+test only
